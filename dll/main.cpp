@@ -24,12 +24,12 @@ std::array pixels_chain = {
 };
 
 std::array photons_chain = {
-    0x008u,
-    0x028u,
-    0x010u,
-    0x234u,
-    0x01cu,
-    0x134u,
+    0x098u,
+    0x004u,
+    0x00cu,
+    0x078u,
+    0x0b8u,
+    0xb48u,
 };
 
 template <typename T>
@@ -51,6 +51,7 @@ DWORD WINAPI dll_thread(HMODULE hModule) {
     freopen_s(&console, "CONOUT$", "w", stdout);
 
     uintptr_t spci = reinterpret_cast<uintptr_t>(GetModuleHandle("SPCImage.exe"));
+    uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandle("base.dll"));
 
     while (true) {
         auto hdl = follow_pointer_chain<std::uint16_t>(spci + 0xa9a8, hdl_chain);
@@ -68,10 +69,10 @@ DWORD WINAPI dll_thread(HMODULE hModule) {
                 amplitudes[0], amplitudes[1], amplitudes[2]);
         }
 
-        if (auto num_phots = follow_pointer_chain<double>(spci + 0x47900, photons_chain); num_phots)
+        if (auto num_phots = follow_pointer_chain<double>(base + 0x36138, photons_chain); num_phots)
             std::printf("Photons within gate: %g\n", num_phots);
 
-        if (auto pixels = follow_pointer_chain<double>(spci + 0x104ef4, pixels_chain); pixels)
+        if (auto pixels = follow_pointer_chain<double>(spci + 0x104ef4, pixels_chain); pixels > 1)
             std::printf("Pixels in ROI: %u\n", static_cast<std::uint32_t>(pixels));
 
         std::this_thread::sleep_for(500ms);

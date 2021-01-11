@@ -14,7 +14,9 @@ clean:
 	@rm -f $(TARGET).exe $(TARGET).dll
 
 $(TARGET).exe: src/main.cpp
-	$(CXX) $< -o $@ $(CXXFLAGS) $(EXEFLAGS)
+	@echo " CXX  " $<
+	@$(CXX) $< -o $@ $(CXXFLAGS) $(EXEFLAGS)
 
 $(TARGET).dll: dll/main.cpp
-	$(CXX) $< -o $@ $(CXXFLAGS) $(DLLFLAGS)
+	@echo " CXX  " $<
+	@$(CXX) $< -o $@ $(CXXFLAGS) $(DLLFLAGS)
