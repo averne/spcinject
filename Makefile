@@ -1,8 +1,8 @@
 TARGET   := spcinject
 
 CXXFLAGS := -march=native -std=gnu++20 -O2 -s
-EXEFLAGS := -fwhole-program
-DLLFLAGS := -shared -L "C:\\Program Files (x86)\\BH\\SPCImage" -l base
+EXEFLAGS := -fwhole-program -static
+DLLFLAGS := -shared -Wl,--as-needed -L "C:\\Program Files (x86)\\BH\\SPCImage" -l base
 
 CXX      := i686-w64-mingw32-c++
 
